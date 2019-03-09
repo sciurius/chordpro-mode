@@ -59,6 +59,8 @@ before loading chordpro-mode.el
 
 Most of the other keyboard commands use the Ctrl-c prefix.
 
+* Ctrl-c a : Run the `a2crd` program on the region to convert chords
+  above lyrics to chordpro format.
 * Ctrl-c i : Insert a chord at the point. You'll be prompted for the
   chord name in the minibuffer. The brackets will automatically be
   inserted, space trimmed, and the chord capitalized.

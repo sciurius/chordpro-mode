@@ -3,8 +3,8 @@
 ;; Created By      : Howard Ding, Fri Mar 15 23:16:52 2014
 ;; Created On      : Mon Dec 14 14:57:36 2015
 ;; Last Modified By: Johan Vromans
-;; Last Modified On: Tue Nov 15 11:12:00 2016
-;; Update Count    : 12
+;; Last Modified On: Fri Apr  6 09:55:11 2018
+;; Update Count    : 19
 ;; Status          : OK
 
 ;; This package was forked Mon Dec 14 14:57:36 2015
@@ -18,7 +18,7 @@
      ("^\\(#.*\\)" . font-lock-comment-face)
      ("\\({subtitle[^}]*}\\)" . font-lock-type-face)
      ("\\({title[^}]*}\\)" . font-lock-keyword-face)
-     ("\\({\\(composer\\|artist\\|album\\|capo\\|key\\|time\\|tempo\\)[^}]*}\\)" . font-lock-keyword-face)
+     ("\\({\\(composer\\|lyricist\\|artist\\|album\\|capo\\|key\\|time\\|tempo\\|duration\\)[^}]*}\\)" . font-lock-keyword-face)
      ("\\({[^}]*}\\)" . font-lock-variable-name-face))))
 
 (defvar chordpro-file-encoding 'latin-1)
@@ -29,9 +29,10 @@
 Special commands:
 \\{chordpro-mode-map}"
   (setq font-lock-defaults chordpro-font-lock-defaults)
-  (setq buffer-file-coding-system chordpro-file-encoding)
-  (auto-fill-mode -1))
+  ;(setq buffer-file-coding-system chordpro-file-encoding)
+  (auto-fill-mode))
 
+(define-key chordpro-mode-map "\C-ca" 'chordpro-run-a2crd)
 (define-key chordpro-mode-map "\C-ci" 'chordpro-insert-chord)
 (define-key chordpro-mode-map "\C-cw" 'chordpro-kill-current-chord)
 (define-key chordpro-mode-map "\C-cz" 'chordpro-kill-next-chord)
@@ -249,6 +250,12 @@ the start and end of the chord."
 
 (and chordpro-hot-insert
     (define-key chordpro-mode-map "[" 'chordpro-insert-chord-hot))
+
+(defun chordpro-run-a2crd ()
+  "Replace region by the result of running it through a2crd."
+  (interactive)
+  (shell-command-on-region (region-beginning) (region-end)
+			   "a2crd" "xx" t))
 
 (provide 'chordpro)
 
